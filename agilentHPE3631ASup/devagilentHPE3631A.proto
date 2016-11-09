@@ -1,0 +1,54 @@
+getIDN {
+    out "*IDN?";
+    in "%\$1[^\r\n]";
+    ExtraInput = Ignore;
+}
+
+getERR {
+     out "SYST:ERR?";
+     in "%39c";
+     ExtraInput = Ignore;
+}
+
+getP6V{
+        out "APPL? P6V";
+	in "\"%8f,%*8f\"";
+        ExtraInput = Ignore;
+}
+getP6A{
+	out "APPL? P6V";
+	in "\"%*8f,%8f\"";
+}
+
+cmd {
+    out "\$1";
+}
+
+setD {
+    out "\$1 %d";
+}
+
+getD {
+    out "\$1?";
+    in "%d";
+    ExtraInput = Ignore;
+}
+
+setLocRem {
+    out "SYST:%{LOC|REM}";
+}
+
+setVI {
+    out "INST \$1;\$2 %g";
+}
+
+getVI {
+    out "INST \$1;\$2?";
+    in "%g";
+    ExtraInput = Ignore;
+}
+
+setDS {
+    out "DISP:TEXT \"%s\"";
+}
+

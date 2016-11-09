@@ -1,0 +1,358 @@
+# Simple database and stream protocol file for basic SCPI (IEEE488.2) commands
+
+# Short and long form of identification string
+record(stringin, "$(P):$(R)IDN")
+{
+    field(DESC, "SCPI identification string")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getIDN(39) $(PORT) $(A)")
+    field(PINI, "YES")
+}
+
+record(waveform, "$(P):$(R)IDNwf")
+{
+    field(DESC, "SCPI identification string")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getIDN(199) $(PORT) $(A)")
+    field(PINI, "YES")
+    field(FTVL, "CHAR")
+    field(NELM, "200")
+}
+
+record(bo, "$(P):$(R)RST")
+{
+    field(DESC, "SCPI Reset")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto cmd(*RST) $(PORT) $(A)")
+}
+
+record(bo, "$(P):$(R)CLS")
+{
+    field(DESC, "SCPI Clear status")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto cmd(*CLS) $(PORT) $(A)")
+}
+
+record(stringin, "$(P):$(R)Error")
+{
+    field(DESC, "Get Error Code")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getERR $(PORT) $(A)")
+    field(SCAN, "5 second")
+}
+
+#RS-232 only
+record(bo, "$(P):$(R)SetRemote")
+{
+    field(DESC, "Set into local/remote mode")
+    field(DTYP, "stream")
+    field(OUT, "@devagilentHPE3631A.proto setLocRem $(PORT) $(A)")
+    field(ZNAM, "Local")
+    field(ONAM, "Remote")
+    field(PINI, "YES")
+    field(VAL,  "1")
+}
+
+record(bo, "$(P):$(R)SetOnOff")
+{
+    field(DESC, "Turn output off/on")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto setD(OUTP) $(PORT) $(A)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+}
+
+record(bi, "$(P):$(R)GetOnOff")
+{
+    field(DESC, "Is output on?")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getD(OUTP) $(PORT) $(A)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(SCAN, "1 second")
+}
+
+record(bo, "$(P):$(R)DispSetOnOff")
+{
+    field(DESC, "Turn display off/on")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto setD(DISP) $(PORT) $(A)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(SCAN, "1 second")
+    field(VAL, "1")
+    field(PINI, "YES")
+}
+
+record(bi, "$(P):$(R)DispGetOnOff")
+{
+    field(DESC, "Is display on?")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getD(DISP) $(PORT) $(A)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(SCAN, "1 second")
+}
+
+record(stringout, "$(P):$(R)DispString")
+{
+    field(DESC, "Display a string")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto setDS $(PORT) $(A)")
+}
+
+record(bo, "$(P):$(R)Beep")
+{
+    field(DESC, "Beep")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto cmd(SYST:BEEP) $(PORT) $(A)")
+}
+
+record(bo, "$(P):$(R)ClearString")
+{
+    field(DESC, "Clear string")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto cmd(DISP:TEXT:CLE) $(PORT) $(A)")
+}
+
+record(longin, "$(P):$(R)GetSTB")
+{
+    field(DESC, "SCPI get status byte")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getD(*STB) $(PORT) $(A)")
+}
+
+record(longin, "$(P):$(R)GetESR")
+{
+    field(DESC, "SCPI get event status")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getD(*ESR) $(PORT) $(A)")
+}
+
+record(longout, "$(P):$(R)SetESE")
+{
+    field(DESC, "SCPI enable event status")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto setD(*ESE) $(PORT) $(A)")
+}
+
+record(longin, "$(P):$(R)GetESE")
+{
+    field(DESC, "SCPI enabled event status")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getD(*ESE) $(PORT) $(A)")
+}
+
+record(longout, "$(P):$(R)SetSRE")
+{
+    field(DESC, "SCPI enable service requests")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto setD(*SRE) $(PORT) $(A)")
+}
+
+record(longin, "$(P):$(R)GetSRE")
+{
+    field(DESC, "Enabled service requests")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getD(*SRE) $(PORT) $(A)")
+}
+
+record(longin, "$(P):$(R)GetOPC")
+{
+    field(DESC, "Output completion status")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getD(*OPC) $(PORT) $(A)")
+}
+
+record(ao, "$(P):$(R)SetP6Volts")
+{
+    field(DESC, "Set +6V output volage")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto setVI(P6V,VOLT) $(PORT) $(A)")
+    field(EGU,  "Volts")
+    field(LOPR, "0")
+    field(HOPR, "6.18")
+    field(EGUL, "0")
+    field(EGUF, "6.18")
+    field(DRVL, "0")
+    field(DRVH, "6.18")
+}
+
+record(ao, "$(P):$(R)SetP6Amps")
+{
+    field(DESC, "Set +6V output current")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto setVI(P6V,CURR) $(PORT) $(A)")
+    field(EGU,  "Amps")
+    field(LOPR, "0")
+    field(HOPR, "5.15")
+    field(EGUL, "0")
+    field(EGUF, "5.15")
+    field(DRVL, "0")
+    field(DRVH, "5.15")
+}
+
+record(ao, "$(P):$(R)SetP25Volts")
+{
+    field(DESC, "Set +25V output volage")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto setVI(P25V,VOLT) $(PORT) $(A)")
+    field(EGU,  "Volts")
+    field(LOPR, "0")
+    field(HOPR, "25.75")
+    field(EGUL, "0")
+    field(EGUF, "25.75")
+    field(DRVL, "0")
+    field(DRVH, "25.75")
+}
+
+record(ao, "$(P):$(R)SetP25Amps")
+{
+    field(DESC, "Set +25V output current")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto setVI(P25V,CURR) $(PORT) $(A)")
+    field(EGU,  "Amps")
+    field(LOPR, "0")
+    field(HOPR, "1.03")
+    field(EGUL, "0")
+    field(EGUF, "1.03")
+    field(DRVL, "0")
+    field(DRVH, "1.03")
+}
+
+record(ao, "$(P):$(R)SetN25Volts")
+{
+    field(DESC, "Set -25V output volage")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto setVI(N25V,VOLT) $(PORT) $(A)")
+    field(EGU,  "Volts")
+    field(HOPR, "0")
+    field(LOPR, "-25.75")
+    field(EGUF, "0")
+    field(EGUL, "-25.75")
+    field(DRVH, "0")
+    field(DRVL, "-25.75")
+}
+
+record(ao, "$(P):$(R)SetN25Amps")
+{
+    field(DESC, "Set -25V output current")
+    field(DTYP, "stream")
+    field(OUT,  "@devagilentHPE3631A.proto setVI(N25V,CURR) $(PORT) $(A)")
+    field(EGU,  "Amps")
+    field(LOPR, "0")
+    field(HOPR, "1.03")
+    field(EGUL, "0")
+    field(EGUF, "1.03")
+    field(DRVL, "0")
+    field(DRVH, "1.03")
+}
+
+record(ai, "$(P):$(R)GetP6Volts")
+{
+    field(DESC, "Get +6V output voltage")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getP6V $(PORT) $(A)")
+    field(EGU,  "Volts")
+    field(LOPR, "0")
+    field(HOPR, "6.18")
+    field(EGUL, "0")
+    field(EGUF, "6.18")
+    field(SCAN, "1 second")
+    field(PREC, "3")
+}
+
+record(ai, "$(P):$(R)MeasP6Amps")
+{
+    field(DESC, "Measure +6V output voltage")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getVI(P6V,MEAS:CURR) $(PORT) $(A)")
+    field(EGU,  "Amps")
+    field(LOPR, "0")
+    field(HOPR, "5.15")
+    field(EGUL, "0")
+    field(EGUF, "5.15")
+    field(SCAN, "1 second")
+    field(PREC, "3")
+}
+
+record(ai, "$(P):$(R)MeasP6Volts")
+{
+    field(DESC, "Measure +6V output voltage")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getVI(P6V,MEAS:VOLT) $(PORT) $(A)")
+    field(EGU,  "Volts")
+    field(LOPR, "0")
+    field(HOPR, "6.18")
+    field(EGUL, "0")
+    field(EGUF, "6.18")
+    field(SCAN, "1 second")
+    field(PREC, "3")
+}
+
+
+record(ai, "$(P):$(R)GetP6Amps")
+{
+    field(DESC, "Get +6V output current")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getP6A $(PORT) $(A)")
+    field(EGU,  "Amps")
+    field(LOPR, "0")
+    field(HOPR, "5.15")
+    field(EGUL, "0")
+    field(EGUF, "5.15")
+    field(SCAN, "1 second")
+    field(PREC, "3")
+}
+
+record(ai, "$(P):$(R)GetP25Volts")
+{
+    field(DESC, "Get +25V output volage")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getVI(P25V,VOLT) $(PORT) $(A)")
+    field(EGU,  "Volts")
+    field(LOPR, "0")
+    field(HOPR, "25.75")
+    field(EGUL, "0")
+    field(EGUF, "25.75")
+    field(PREC, "4")
+}
+
+record(ai, "$(P):$(R)GetP25Amps")
+{
+    field(DESC, "Get +25V output current")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getVI(P25V,CURR) $(PORT) $(A)")
+    field(EGU,  "Amps")
+    field(LOPR, "0")
+    field(HOPR, "1.03")
+    field(EGUL, "0")
+    field(EGUF, "1.03")
+    field(PREC, "4")
+}
+
+record(ai, "$(P):$(R)GetN25Volts")
+{
+    field(DESC, "Get -25V output volage")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getVI(N25V,VOLT) $(PORT) $(A)")
+    field(EGU,  "Volts")
+    field(LOPR, "-25.75")
+    field(HOPR, "0")
+    field(EGUL, "-25.75")
+    field(EGUF, "0")
+    field(PREC, "4")
+}
+
+record(ai, "$(P):$(R)GetN25Amps")
+{
+    field(DESC, "Get -25V output current")
+    field(DTYP, "stream")
+    field(INP,  "@devagilentHPE3631A.proto getVI(N25V,CURR) $(PORT) $(A)")
+    field(EGU,  "Amps")
+    field(LOPR, "0")
+    field(HOPR, "1.03")
+    field(EGUL, "0")
+    field(EGUF, "1.03")
+    field(PREC, "4")
+}
