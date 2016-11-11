@@ -25,7 +25,9 @@ endif
 ifdef ASYN
 	$(PROD_IOC)_DBD += asyn.dbd drvAsynSerialPort.dbd
 	$(PROD_IOC)_DBD += drvAsynIPPort.dbd
-	$(PROD_IOC)_DBD += drvLinuxGpib.dbd
+	ifeq ($(findstring linux, $(EPICS_HOST_ARCH)), linux)
+		$(PROD_IOC)_DBD += drvLinuxGpib.dbd
+	endif
 	$(PROD_IOC)_LIBS += asyn
 endif
 ifdef STD
